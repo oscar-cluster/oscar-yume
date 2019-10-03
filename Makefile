@@ -25,11 +25,13 @@ install: manpages
 	install -d -o root -g root -m 755 $(MANDIR)/man8
 	install -o root -g root -m 755  yume $(BINDIR)
 	install -o root -g root -m 755  yume-opkg $(BINDIR)
+ifdef WITH_YUM_REPOQUERY
 	install -o root -g root -m 755  yum-repoquery $(BINDIR)
 	install -o root -g root -m 755  yum-repoquery3 $(BINDIR)
+endif
 	install -o root -g root -m 755  ptty_try $(BINDIR)
-	install -o root -g root -m 755  *.rpmlist $(DATADIR)/$(NAME)
-	install -o root -g root -m 755  yume.8 $(MANDIR)/man8
+	install -o root -g root -m 644  *.rpmlist $(DATADIR)/$(NAME)
+	install -o root -g root -m 644  yume.8 $(MANDIR)/man8
 
 dist: clean
 	mkdir -p /tmp/$(NAME)-$(VERSION)/debian

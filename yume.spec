@@ -56,7 +56,12 @@ repoquery.
 
 %install
 
+%if %use_dnf
 %__make install DESTDIR=$RPM_BUILD_ROOT
+%else
+%__make install DESTDIR=$RPM_BUILD_ROOT WITH_YUM_REPOQUERY=1
+%endif
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
