@@ -16,8 +16,10 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}
 %if %{?rhel}%{!?rhel:8} < 8
 Requires: yum >= 2.4.0
+%define use_dnf 0
 %else
 Requires: dnf
+%define use_dnf 1
 %endif
 Requires: oscar-utils >= 6.1.2
 Requires: which
@@ -61,7 +63,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_bindir}/*
+%{_bindir}/yume
+%{_bindir}/yume-opkg
+%{_bindir}/ptty_try
+%if ! %use_dnf
+%{_bindir}/yum-repoquery
+%{_bindir}/yum-repoquery3
+%endif
 %{_datadir}/%{name}/*
 %{_mandir}/man8/yume*
 %{_mandir}/man1/ptty_try*
