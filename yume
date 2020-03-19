@@ -165,14 +165,19 @@ foreach (@repos) {
   s:\/$::;
 }
 
+# repo_id is to make sure we don't have multiple repo with same same.
+my $repo_id = 1;
+
 for my $repo (@repos) {
     if (($repo !~ /^(file|ftp|http|mirror)/) && -d $repo && ($repo=~/^\//)) {
         $repo = "file:".$repo;
     }
     my $base=basename($repo);
     my $dir=basename(dirname($repo));
-    print $fh "[$dir"."_"."$base]\n";
-    print $fh "name=$base package repository\n";
+    print $fh "[$repo_id"."_".$dir."_"."$base]\n";
+    print $fh "name=$base package repository #$repo_id\n";
+    $repo_id++;
+
     if ($repo =~ /^mirror:(.*)$/) {
         my $url = $1;
         print $fh "mirrorlist=$url\n\n";
