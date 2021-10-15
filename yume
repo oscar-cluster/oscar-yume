@@ -143,6 +143,23 @@ push @cleanfiles, $name;
 # install exit handler which removes the temporary file
 END {my $rc = $?; cleanup(); exit $rc};
 
+# On newer fedora and redhat/centos, we need
+# to add module_platform_id=platform:%{dist}
+# many system packages will require this virtual package
+# (Require: platform:el8 # for centos/redhat 8)
+
+my %os_release=();
+
+if( open(OS,"cat /etc/os-release|") ) {
+    while (<OS>){
+        my @os_param = split /=/, $_;
+        $os_release{$os_param[0]}=$os_param[1];
+    }
+    close(OS);
+} elsif ($verbose) {
+	print "/etc/os-release unavailable\nCan't guess if platform_id is required.\n";
+}
+
 # create yum config file
 print $fh <<EOF;
 [main]
@@ -151,6 +168,11 @@ debuglevel=2
 logfile=/var/log/yume.log
 pkgpolicy=newest
 #distroverpkg=redhat-release
+EOF
+if (defined $os_release{PLATFORM_ID} && $os_release{PLATFORM_ID} ne "") {
+	print $fh "module_platform_id=$os_release{PLATFORM_ID}";
+}
+print $fh <<EOF;
 tolerant=1
 exactarch=1
 retries=20
