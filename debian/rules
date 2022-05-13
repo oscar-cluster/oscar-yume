@@ -56,8 +56,13 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/yume.
+ifeq "$(shell which dnf 2>/dev/null)" ""
+	# No DNF command (old distro): need repoquery script
+	$(MAKE) DESTDIR=$(CURDIR)/debian/yume WITH_YUM_REPOQUERY=1 install
+else
+	# Modern distro: dnf can repoquery
 	$(MAKE) DESTDIR=$(CURDIR)/debian/yume install
-
+endif
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -77,7 +82,7 @@ binary-arch: build install
 #	dh_installemacsen
 #	dh_installpam
 #	dh_installmime
-#	dh_python
+	dh_python
 #	dh_installinit
 #	dh_installcron
 #	dh_installinfo
@@ -86,7 +91,7 @@ binary-arch: build install
 	dh_strip
 	dh_compress
 	dh_fixperms
-#	dh_perl
+	dh_perl
 #	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
