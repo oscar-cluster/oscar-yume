@@ -1015,9 +1015,10 @@ sub restart_httpd {
 
 sub prep_repodata {
     my $createrepo=`which createrepo`;
+    $createrepo=`which createrepo_c` if($createrepo eq "") ;
     my $comps = "comps.xml";
     my $ret = 0;
-    if ($?) {
+    if ($createrepo eq "") {
         print "ERROR: Could not find createrepo executable! Aborting.\n";
         return 1;
     }
