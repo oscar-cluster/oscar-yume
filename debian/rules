@@ -82,7 +82,10 @@ binary-arch: build install
 #	dh_installemacsen
 #	dh_installpam
 #	dh_installmime
-	dh_python
+# On old distros with yum only, we provide a repoquery python2 script as replacement
+ifeq "$(shell which dnf 2>/dev/null)" ""
+	dh_python2
+endif
 #	dh_installinit
 #	dh_installcron
 #	dh_installinfo
