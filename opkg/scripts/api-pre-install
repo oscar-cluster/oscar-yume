@@ -1,0 +1,20 @@
+#!/usr/bin/env perl
+
+# Self disable on deb distro
+use OSCAR::Logger;
+use OSCAR::LoggerDefs;
+use OSCAR::OCA::OS_Detect;
+use OSCAR::ODA_Defs;
+use OSCAR::Database;
+my $os = OSCAR::OCA::OS_Detect::open();
+my %selection_data = (); 
+if ($os->{pkg} eq "deb") {
+    oscar_log(2, INFO, "DEB based distro: yume opkg self unselect");
+    $selection_data{'yume'} = OSCAR::ODA_Defs::UNSELECTED();
+    if(OSCAR::Database::set_opkgs_selection_data (%selection_data)) {
+        exit 0;
+    } else {
+        oscar_log(1, ERROR, "Failed to unselect yume opkg on deb based distro.");
+	exit 1;
+    }
+}
