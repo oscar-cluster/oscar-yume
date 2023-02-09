@@ -96,7 +96,7 @@ if (!scalar(@repos)) {
     help_and_die ();
 }
 
-my @validarch = qw(i386 x86_64 ia64 ppc64 noarch);
+my @validarch = qw(i386 x86_64 aarch64 ia64 ppc64 noarch);
 
 $archstr = &get_arch_repos(@repos);
 if (!defined $archstr || $archstr eq "") {

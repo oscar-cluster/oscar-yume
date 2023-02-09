@@ -1,3 +1,5 @@
+yume-2.8.18:
+- Add aarch64 (ARM64v8) arch support
 yume-2.8.17:
 - Fix "Calling POSIX::tmpnam() is deprecated".
 - Fix package manager requirement (yum or dnf depending on distro)

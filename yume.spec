@@ -5,7 +5,7 @@
 
 Summary: Wrapper to yum for clusters
 Name: yume
-Version: 2.8.17
+Version: 2.8.18
 Vendor: Open Source Cluster Group
 Release: 1%{?dist}
 License: GPL
@@ -80,6 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ptty_try*
 
 %changelog
+* Thu Feb  9 2023 Olivier Lahaye <olivier.lahaye1@free.fr> 2.8.18-1
+- Aarch64 support.
 * Thu Mar 19 2020 Olivier Lahaye <olivier.lahaye1@free.fr> 2.8.17-1
 - Bugfix version.
 * Fri Aug 01 2014 Olivier Lahaye <olivier.lahaye1@free.fr> 2.8.16-1
